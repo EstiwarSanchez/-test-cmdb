@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\Repositories\CategoryRepositoryInterface;
 use App\Interfaces\Services\AlephApiServiceInterface;
-use Illuminate\Support\Facades\Cache;
+
 
 /**
  * Implementación concreta del repositorio de categorías.
