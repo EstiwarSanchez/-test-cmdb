@@ -10,6 +10,9 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
+/**
+ * Exporta items de CMDB a Excel usando Maatwebsite\Excel.
+ */
 class CmdbItemsExport implements FromCollection, WithHeadings, WithMapping, WithStyles
 {
     protected $apiService;
@@ -18,6 +21,9 @@ class CmdbItemsExport implements FromCollection, WithHeadings, WithMapping, With
     protected $cmdbItems;
     protected $dynamicFields;
 
+    /**
+     * Constructor: inyecta dependencias y carga datos necesarios.
+     */
     public function __construct(
         AlephApiServiceInterface $apiService,
         CategoryRepositoryInterface $categoryRepository,
@@ -34,6 +40,9 @@ class CmdbItemsExport implements FromCollection, WithHeadings, WithMapping, With
         $this->loadCmdbItems();
     }
 
+    /**
+     * Carga los campos dinámicos de la categoría.
+     */
     protected function loadCategoryData()
     {
         try {
@@ -49,6 +58,9 @@ class CmdbItemsExport implements FromCollection, WithHeadings, WithMapping, With
         }
     }
 
+    /**
+     * Carga los items de CMDB para la categoría.
+     */
     protected function loadCmdbItems()
     {
         try {
@@ -60,7 +72,8 @@ class CmdbItemsExport implements FromCollection, WithHeadings, WithMapping, With
                 return;
             }
 
-             $this->cmdbItems = collect($items['cmdb']);
+            // Almacena los items en una colección
+            $this->cmdbItems = collect($items['cmdb']);
 
             \Log::info("Items cargados para exportación: " . $this->cmdbItems->count());
 
@@ -70,11 +83,17 @@ class CmdbItemsExport implements FromCollection, WithHeadings, WithMapping, With
         }
     }
 
+    /**
+     * Devuelve la colección de items para exportar.
+     */
     public function collection()
     {
         return $this->cmdbItems;
     }
 
+    /**
+     * Devuelve los encabezados de la hoja Excel.
+     */
     public function headings(): array
     {
         // Tomamos las claves del primer ítem de la colección
@@ -83,12 +102,17 @@ class CmdbItemsExport implements FromCollection, WithHeadings, WithMapping, With
             : [];
     }
 
+    /**
+     * Mapea cada item a un array de valores para la fila.
+     */
     public function map($item): array
     {
         return array_values($item);
     }
 
-
+    /**
+     * Aplica estilos a la hoja de Excel.
+     */
     public function styles(Worksheet $sheet)
     {
         $headerStyle = [
@@ -108,7 +132,7 @@ class CmdbItemsExport implements FromCollection, WithHeadings, WithMapping, With
         $lastColumn = chr(65 + count($this->headings()) - 1);
 
         return [
-            1 => $headerStyle,
+            1 => $headerStyle, // Aplica el estilo al encabezado
             'A2:' . $lastColumn . '1000' => [
                 'alignment' => [
                     'wrapText' => true // Solo para el contenido
@@ -117,6 +141,9 @@ class CmdbItemsExport implements FromCollection, WithHeadings, WithMapping, With
         ];
     }
 
+    /**
+     * Devuelve el título de la hoja.
+     */
     public function title(): string
     {
         $category = $this->categoryRepository->find($this->categoryId);

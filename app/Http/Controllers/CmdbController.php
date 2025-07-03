@@ -8,31 +8,38 @@ use App\Interfaces\Repositories\CategoryRepositoryInterface;
 use App\Interfaces\Repositories\CmdbRepositoryInterface;
 use Illuminate\Support\Facades\Log;
 
+// Controlador para gestionar operaciones CRUD sobre CMDB
 class CmdbController extends Controller
 {
+    // Repositorio para operaciones sobre CMDB
     protected $cmdbRepository;
+    // Repositorio para operaciones sobre categorías
     protected $categoryRepository;
 
+    // Inyección de dependencias de los repositorios
     public function __construct(CmdbRepositoryInterface $cmdbRepository, CategoryRepositoryInterface $categoryRepository)
     {
         $this->cmdbRepository = $cmdbRepository;
         $this->categoryRepository = $categoryRepository;
     }
 
+    // Muestra el formulario para crear un nuevo item de CMDB en una categoría específica
     public function create(int $categoryId)
     {
         try {
             $categories = $this->categoryRepository->all();
+            // Busca la categoría correspondiente por ID
             $category = collect($categories['categorias'])->firstWhere('id', $categoryId);
             return view('cmdb.create', [
                 'category' => $category
             ]);
         } catch (\Exception $e) {
+            // Registra el error en el log
             Log::error("CmdbController failed: " . $e->getMessage());
         }
-
     }
 
+    // Almacena un nuevo item de CMDB en la base de datos
     public function store(StoreCmdbRequest $request, int $categoryId)
     {
         try {
@@ -44,6 +51,7 @@ class CmdbController extends Controller
         }
     }
 
+    // Muestra los items de CMDB de una categoría específica
     public function show(int $categoryId)
     {
         try {
@@ -58,6 +66,7 @@ class CmdbController extends Controller
         }
     }
 
+    // Muestra el formulario para editar los items de CMDB de una categoría
     public function edit(int $categoryId)
     {
         try {
@@ -72,6 +81,7 @@ class CmdbController extends Controller
         }
     }
 
+    // Actualiza un item de CMDB existente
     public function update(UpdateCmdbRequest $request, int $categoryId, string $id)
     {
         try {
@@ -83,6 +93,7 @@ class CmdbController extends Controller
         }
     }
 
+    // Elimina un item de CMDB
     public function destroy(int $categoryId, string $id)
     {
         try {
@@ -94,6 +105,7 @@ class CmdbController extends Controller
         }
     }
 
+    // Activa o desactiva un item de CMDB según el estado recibido
     public function deactivate(int $categoryId, int $estado)
     {
         try {
@@ -105,5 +117,4 @@ class CmdbController extends Controller
             return redirect()->back()->withErrors(['error' => 'Error al desactivar CMDB']);
         }
     }
-
 }
