@@ -5,12 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ImportRequest;
 use App\Interfaces\Repositories\CategoryRepositoryInterface;
 use App\Interfaces\Services\AlephApiServiceInterface;
-use App\Http\Requests\ImportExportRequest;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\CmdbItemsExport;
 use App\Imports\CmdbItemsImport;
-use Illuminate\Http\Request;
 
 class ImportExportController extends Controller
 {
