@@ -8,9 +8,6 @@ Aplicación Laravel para gestionar categorías y registros CMDB consumiendo la A
 - PHP 8.1+
 - Laravel 10+
 - Composer 2+
-- Redis 6+ (para caché)
-- MySQL 8+ o PostgreSQL 13+
-- Node.js 16+ (para frontend)
 
 ---
 
@@ -18,8 +15,8 @@ Aplicación Laravel para gestionar categorías y registros CMDB consumiendo la A
 
 1. **Clonar repositorio**:
 ```bash
-git clone [url-del-repositorio]
-cd nombre-del-proyecto
+git clone https://github.com/EstiwarSanchez/-test-cmdb.git
+cd -test-cmdb
 ```
 
 2. **Instalar dependencias PHP**:
@@ -52,8 +49,6 @@ DB_DATABASE=nombre_base_datos
 DB_USERNAME=usuario
 DB_PASSWORD=contraseña
 
-CACHE_DRIVER=redis
-SESSION_DRIVER=redis
 
 ALEPH_API_BASE_URL=https://url-api-aleph.com/api
 ALEPH_API_TOKEN=tu_token_aleph
@@ -63,27 +58,6 @@ ALEPH_API_TOKEN=tu_token_aleph
 ```bash
 php artisan migrate
 ```
-
----
-
-## Frontend
-
-7. **Instalar dependencias JavaScript**:
-```bash
-npm install
-```
-
-8. **Compilar assets**:
-```bash
-npm run dev
-```
-
-> Para compilar en producción:
-```bash
-npm run build
-```
-
----
 
 ## Servidor local
 
@@ -108,7 +82,6 @@ Accede a: `http://localhost:8000`
 
 - Las categorías y campos dinámicos provienen de la API Aleph, por lo que es importante tener configurado correctamente el endpoint y token.
 - El sistema detecta automáticamente si un item debe crearse o actualizarse, basándose en el campo `identificador`.
-- Redis es usado para cachear categorías. Puedes vaciar caché con:
 
 ```bash
 php artisan cache:clear
