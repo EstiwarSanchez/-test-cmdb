@@ -35,6 +35,8 @@ php artisan key:generate
 ```
 
 5. **Configurar variables de entorno**  
+Importante configurar una base de datos en el `.env` para el correcto funcionamiento del aplicativo
+
 Edita el archivo `.env` y ajusta los siguientes valores:
 
 ```dotenv
