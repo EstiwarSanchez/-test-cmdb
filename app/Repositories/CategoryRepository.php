@@ -4,12 +4,10 @@ namespace App\Repositories;
 
 use App\Interfaces\Repositories\CategoryRepositoryInterface;
 use App\Interfaces\Services\AlephApiServiceInterface;
-use App\Traits\Cacheable;
 use Illuminate\Support\Facades\Cache;
 
 class CategoryRepository implements CategoryRepositoryInterface
 {
-    use Cacheable;
 
     protected $apiService;
     protected $cacheKey = 'categories';
